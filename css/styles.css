@@ -1,3 +1,18 @@
-.gallery {
-    
-}
+    ul {
+        max-width: 1128px;
+        max-height: 648px;
+        display: flex;
+        flex-wrap: wrap; /* Дозволяє елементам переноситися на новий рядок */
+        justify-content: space-around; /* Вирівнювання елементів по горизонталі */
+        align-items: center; 
+        gap: 24px; /* Проміжок між елементами */
+        list-style-type: none; /* Видалити маркери списку */
+        padding: 0;
+        margin: 0;
+        };
+        
+        .gallery li img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover; /* Збереження пропорцій зображення */
+        };

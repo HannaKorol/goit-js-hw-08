@@ -65,8 +65,6 @@ const images = [
   ];
 
 
-
-
 // 1) Функція для формування розмітки списку картинок галереї на основі масиву картинок.
 function createGalleryImgs(images){
     return images
@@ -74,81 +72,44 @@ function createGalleryImgs(images){
       ({preview, original, description }) => 
     `<li class="gallery-item">
     <a class="gallery-link" href="${original}">
-    <img class="gallery-image" data-source="${original}" src="${preview}" alt="${description}"/>
+    <img class="gallery-image" src="${preview}" data-source="${original}" alt="${description}" width="360"
+          height="200"/>
     </a> 
     </li>`
     )
     .join("");
-}
+};
 
-  // 2) Cтворити пустий "ul" список для додавання посилань
-  const galleryList = document.querySelector(".gallery");
+// 2) Cтворити пустий "ul" список 
+const galleryList = document.querySelector(".gallery");
 
-  // 3) Вставка згенерованої HTML-розмітки всередину пустого "ul" списка з класом gallery.
+// 3) Вставка згенерованої HTML-розмітки всередину пустого "ul" списка з класом gallery.
 galleryList.insertAdjacentHTML("beforeend", createGalleryImgs(images)); 
 
-// 4) Забороняємо поведінку за замовчуванням для тегу <a> (скачування картинок).
+// 4) Забороняємо поведінку за замовчуванням для тегу <a> (скачування картинок на дивайс).
 galleryList.addEventListener("click", (e) => {
   e.preventDefault();
 
-// метод closest повертає посилання на найближчий батьківський елемент який відповідає переданому селектору.
-const clickedImg = e.target.closest(".gallery-item");
-if (!clickedImg) return; // Виходимо, якщо клік не по картинці
+// 5) метод closest повертає посилання на найближчий батьківський елемент який відповідає переданому селектору.
+const clickedImg = e.target.closest(".gallery-item"); //тут ми кажемо що якщо ми натиснули на картинку то отримаємо значення li елементаю. Цей рядок коду знаходить найближчий батьківський елемент з класом gallery-item для елемента, на який був здійснений клік.
+if (!clickedImg) return; // якщо клік не по картинці, то отримаємо значення  li елемента
 
 
+// 6)шукаємо дочірній елемент з класом gallery-image всередині знайденого gallery-item.
 const clickedElement = clickedImg.querySelector(".gallery-image");
-    const originalImageSrc = clickedElement.dataset.source;
-    const imageDescription = clickedElement.alt;
 
+    // 6.1 Отримаємо значення цього атребута - dataset.source з картинки
+    const originalImageSrc = clickedElement.dataset.source; 
+    // 6.2  Отримаємо значення цього атребута alt з картинки
+    const imageDescription = clickedElement.alt; 
 
-/*     // Тут можна додати відкриття модального вікна або інші дії
-    console.log("Clicked Image Source:", originalImageSrc);
-    console.log("Image Description:", imageDescription);
-});
- */
-
-
-//-----------------
-/* 
-galleryList.addEventListener("click", handleCardClick) //при кліку на карточку відкривається модалка
-
-
-function handleCardClick(event){ 
-  if(event.currentTarget === event.target) { // )При кліку між елементами галереї нічого не відбувається. (//перевіряємо місклік, тобто перевірка на те, що ми клікнули поза елементами галереї. Тут перевіряється рівніть currentTarget і target. Вони будуть рівними тільки тоді, коли ми клікнемо на сам елемент батьківсього galleryList. А батьківський galleryList і є цим місклікліком між елементами галереї.)
-    return;}
-  console.log(event.target) //виведемо в консоль те на що ми натиснули
-} */
-
-/* 
-1. отримати id картинки на яку було написнуто.
-2. знайти в масиві картинок ту картинку яка відповідає нашому id натиснутої картинки.
-3. створити розмітку для модального вікна на основі знайденого об"єкта.
-*/
-
-
-
-// створення екземпляру модального вікна за допомогою бібліотеки
+// 7) створення екземпляру модального вікна за допомогою бібліотеки 
 const instance = basicLightbox.create(`
   <div class="modal">
-  <img src="${originalImageSrc}" alt="${imageDescription}"/>
+  <img src="${originalImageSrc}" alt="${imageDescription}" width="1112" height="640"/>
   </div>
 `);
 
-// виклик методу який відкриє модальне вікно (з документації бібліотеки).
+// 8) Виклик методу який відкриє модальне вікно (з документації бібліотеки).
 instance.show()
 });
-
-
-
-
-/* 
-
-    // Вішаємо обробник подій на батьківський елемент 
-    galleryList.addEventListener("click", handleImgClick)
-    function handleImgClick (event) {
-        console.log(event.target);
-        console.log(event.currentTarget);
-
-    }
-
-     */
